@@ -1,0 +1,46 @@
+CREATE TABLE Cadastro (
+id_cadastro INT AUTO_INCREMENT PRIMARY KEY,
+nome_usuario VARCHAR(200) NOT NULL,
+nome_completo VARCHAR(200) NOT NULL,
+email VARCHAR(200) NOT NULL,
+data_nasc DATE NOT NULL,
+senha VARCHAR(50) NOT NULL,
+data_cadastro DATE NOT NULL,
+perfil ENUM('Cliente', 'Vendedor') NOT NULL
+);
+CREATE TABLE Telefones (
+id_telefones INT AUTO_INCREMENT PRIMARY KEY,
+telefone VARCHAR(20) NOT NULL,
+tipo ENUM('Fixo', 'Móvel', 'VoIP') NOT NULL,
+id_cliente_tel INT NOT NULL,
+FOREIGN KEY (id_cliente_tel) REFERENCES Cadastro(id_cadastro) ON DELETE CASCADE
+);
+CREATE TABLE Endereco (
+id_endereco INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+logradouro VARCHAR(200) NOT NULL,
+complemento VARCHAR(200),
+numero CHAR(5) NOT NULL,
+estado ENUM('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MS', 'MT', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO') NOT NULL,
+cidade VARCHAR(200) NOT NULL,
+cep CHAR(8) NOT NULL,
+bairro VARCHAR(200) NOT NULL,
+id_cliente_endereco INT NOT NULL,
+FOREIGN KEY (id_cliente_endereco) REFERENCES Cadastro(id_cadastro) ON DELETE CASCADE
+);
+CREATE TABLE CadastroProdutos(
+id_produto INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+nome_produto VARCHAR(200) NOT NULL,
+descricao TEXT NOT NULL,
+categoria ENUM('Roupas', 'Eletrônicos', 'Acessórios', 'Periféricos', 'Brinquedos') NOT NULL,
+preco DECIMAL(10, 2) NOT NULL,
+quantidade INT,
+codigo_barras INT NOT NULL UNIQUE,
+data_cadastro DATE NOT NULL
+);
+CREATE TABLE Vendas (
+id_venda INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+id_vendas_cliente INT NOT NULL,
+FOREIGN KEY (id_vendas_cliente) REFERENCES Cadastro(id_cadastro) ON DELETE CASCADE,
+id_vendas_produto INT NOT NULL,
+FOREIGN KEY (id_vendas_produto) REFERENCES CadastroProdutos(id_produto) ON DELETE CASCADE
+);
