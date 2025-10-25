@@ -1,3 +1,4 @@
+CREATE TABLE Cadastro (
 id_cadastro INT AUTO_INCREMENT PRIMARY KEY,
 nome_usuario VARCHAR(200) NOT NULL,
 nome_completo VARCHAR(200) NOT NULL,
@@ -44,6 +45,18 @@ FOREIGN KEY (id_vendas_cliente) REFERENCES Cadastro(id_cadastro) ON DELETE CASCA
 id_vendas_produto INT NOT NULL,
 FOREIGN KEY (id_vendas_produto) REFERENCES CadastroProdutos(id_produto) ON DELETE CASCADE
 );
+INSERT INTO Cadastro (nome_usuario, nome_completo, email, data_nasc, senha, data_cadastro, perfil)
+VALUES ('João', 'João Pedro Lima de Camargo', 'camargo.vender@gmail.com', '1973-03-08', '03081973', '2020-01-14', 'Vendedor'),
+('Vanderlei', 'Vanderlei Bento Maciel', 'vanderlei.vender@gmail.com', '1955-09-09', '09091955', '2022-07-22', 'Vendedor'),
+('NTJ', 'Higor Nielsen Maciel', 'naiguncio@gmail.com', '2007-01-03', '03012007', '2025-02-08', 'Cliente'),
+('Charles', 'Eduardo Pires Batagliotti', 'epires.batagliotti@gmail.com', '2007-06-24', '24062007', '2025-07-02', 'Cliente'),
+('Vitão', 'Vitor Rodrigues Moreira', 'moreira.r.vitor44@gmail.com', '2007-02-23', '23022007', '2027-06-14', 'Cliente');
+INSERT INTO Endereco (logradouro, complemento, numero, estado, cidade, cep, bairro, id_cliente_endereco)
+VALUES ('Rua das Flores', 'Apartamento 101', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '2'),
+('Rua das Flores', 'Apartamento 105', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '1'),
+('Rua das Flores', 'Apartamento 101', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '3'),
+('Avenida Paulista', '', '2101', 'SP', 'São Paulo', '01310930', 'Consolação', '4'),
+('Rua dos coqueiros', '', '85', 'RN', 'Natal', '55155320', 'Tirol', '5');
 INSERT INTO CadastroProdutos (nome_produto, categoria, preco, quantidade, data_cadastro, id_produto_vendedor, descricao)
 VALUES ('TechT-Shirt', 'Roupas', '149.99', '20', '2024-06-21', '1', 'A primeira camiseta do Brasil feita com fibras tecnológicas, e a única com garantia contra desbotamento. O tecido INTECH™ facilita tudo: o trabalho, o treino, o cuidado e até a hora de se vestir. Como ela não pega cheiro fácil, requer menos lavagens. Como ela não desbota, requer menos compras. Como ela é minimalista e atemporal, entrega mais combinações com facilidade. Além disso, tem maciez superior ao algodão e emite até 81.5% menos gases estufa que o modal convencional. *Garantia de 2 anos contra desbotamento para peças adquiridas a partir de 06/09/24, desde que seguidas as instruções da etiqueta, considerando uma lavagem por semana'),
 ('Tablet Samsung Galaxy S10', 'Eletrônicos', '2069.10', '32', '2025-05-31', '2', 'MODERNO E PRÁTICO! Aumente sua produtividade e desfrute de momentos de lazer com a Tablet Galaxy Tab S10 Lite 5G da Samsung. Com um design elegante na cor cinza, esse tablet é perfeito para quem busca um dispositivo versátil e de alto desempenho. O modelo apresenta 128 GB de armazenamento e 6 GB de RAM, garantindo espaço e velocidade para todos os seus aplicativos e arquivos. Capture momentos especiais com a câmera traseira de 8 MP e aproveite chamadas de vídeo com a câmera frontal. Com conectividade Wi-Fi, você pode navegar rapidamente pela internet e se manter sempre atualizado. Sua tela de 128 polegadas proporciona uma experiência visual imersiva, ideal para assistir vídeos, ler ou trabalhar em documentos. O chipset Exynos 1380, aliado a uma bateria de 8 Ah, assegura que você permaneça conectado e produtivo por longas horas sem a necessidade de recargas frequentes. E com a tecnologia Bluetooth 5.3, conecte-se facilmente a outros dispositivos. Este dispositivo é uma escolha inteligente para estudantes, profissionais e todos que desejam uma experiência fluida e eficiente em um tablet moderno. DIMENSÕES E PESO: Altura: 16,58 cm Largura: 25,43 cm Profundidade: 0,66 cm Peso: 0,524 kg'),
