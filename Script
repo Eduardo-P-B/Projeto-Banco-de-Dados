@@ -1,3 +1,4 @@
+-- Criação da tabela cadastro, proposta pela equipe de design, apenas com a remoção de alguns elementos, que foram transformados em tabelas.
 CREATE TABLE Cadastro (
 id_cadastro INT AUTO_INCREMENT PRIMARY KEY,
 nome_usuario VARCHAR(200) NOT NULL,
@@ -8,6 +9,7 @@ senha VARCHAR(50) NOT NULL,
 data_cadastro DATE NOT NULL,
 perfil ENUM('Cliente', 'Vendedor') NOT NULL
 );
+-- Criação da tabela telefone para organizar melhor várias informações diferentes no lugar da coluna proposta pela equipa de design, já que se fosse uma coluna, uma pessoa não poderia ter mais de um telefone.
 CREATE TABLE Telefones (
 id_telefones INT AUTO_INCREMENT PRIMARY KEY,
 telefone VARCHAR(20) NOT NULL,
@@ -15,6 +17,7 @@ tipo ENUM('Fixo', 'Móvel', 'VoIP') NOT NULL,
 id_cliente_tel INT NOT NULL,
 FOREIGN KEY (id_cliente_tel) REFERENCES Cadastro(id_cadastro) ON DELETE CASCADE
 );
+-- Criação da tabela endereço para organizar melhor várias informações diferentes no lugar da coluna proposta pela equipa de design, já que se fosse uma coluna, uma pessoa não poderia ter mais de um telefone.
 CREATE TABLE Endereco (
 id_endereco INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 logradouro VARCHAR(200) NOT NULL,
@@ -27,17 +30,20 @@ bairro VARCHAR(200) NOT NULL,
 id_cliente_endereco INT NOT NULL,
 FOREIGN KEY (id_cliente_endereco) REFERENCES Cadastro(id_cadastro) ON DELETE CASCADE
 );
+-- Criação da tabela cadastro produtos, proposta pela equipe de design.
 CREATE TABLE CadastroProdutos(
 id_produto INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 nome_produto VARCHAR(200) NOT NULL,
 categoria ENUM('Roupas', 'Eletrônicos', 'Acessórios', 'Periféricos', 'Brinquedos') NOT NULL,
 preco DECIMAL(10, 2) NOT NULL,
 quantidade INT,
+codigo_barras CHAR(13) NOT NULL UNIQUE,
 data_cadastro DATE NOT NULL,
 id_produto_vendedor INT NOT NULL, 
 descricao TEXT NOT NULL,
 FOREIGN KEY (id_produto_vendedor) REFERENCES Cadastro(id_cadastro) ON DELETE CASCADE
 );
+-- Criação da tabela vendas, veio para substituir a tabela de "Registro de Vendas".
 CREATE TABLE Vendas (
 id_venda INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 id_vendas_cliente INT NOT NULL,
@@ -45,6 +51,7 @@ FOREIGN KEY (id_vendas_cliente) REFERENCES Cadastro(id_cadastro) ON DELETE CASCA
 id_vendas_produto INT NOT NULL,
 FOREIGN KEY (id_vendas_produto) REFERENCES CadastroProdutos(id_produto) ON DELETE CASCADE
 );
+-- Inserção de valores nas tabelas.
 INSERT INTO Cadastro (nome_usuario, nome_completo, email, data_nasc, senha, data_cadastro, perfil)
 VALUES ('João', 'João Pedro Lima de Camargo', 'camargo.vender@gmail.com', '1973-03-08', '03081973', '2020-01-14', 'Vendedor'),
 ('Vanderlei', 'Vanderlei Bento Maciel', 'vanderlei.vender@gmail.com', '1955-09-09', '09091955', '2022-07-22', 'Vendedor'),
@@ -57,12 +64,12 @@ VALUES ('Rua das Flores', 'Apartamento 101', '132', 'SP', 'São Paulo', '0130102
 ('Rua das Flores', 'Apartamento 101', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '3'),
 ('Avenida Paulista', '', '2101', 'SP', 'São Paulo', '01310930', 'Consolação', '4'),
 ('Rua dos coqueiros', '', '85', 'RN', 'Natal', '55155320', 'Tirol', '5');
-INSERT INTO CadastroProdutos (nome_produto, categoria, preco, quantidade, data_cadastro, id_produto_vendedor, descricao)
-VALUES ('TechT-Shirt', 'Roupas', '149.99', '20', '2024-06-21', '1', 'A primeira camiseta do Brasil feita com fibras tecnológicas, e a única com garantia contra desbotamento. O tecido INTECH™ facilita tudo: o trabalho, o treino, o cuidado e até a hora de se vestir. Como ela não pega cheiro fácil, requer menos lavagens. Como ela não desbota, requer menos compras. Como ela é minimalista e atemporal, entrega mais combinações com facilidade. Além disso, tem maciez superior ao algodão e emite até 81.5% menos gases estufa que o modal convencional. *Garantia de 2 anos contra desbotamento para peças adquiridas a partir de 06/09/24, desde que seguidas as instruções da etiqueta, considerando uma lavagem por semana'),
-('Tablet Samsung Galaxy S10', 'Eletrônicos', '2069.10', '32', '2025-05-31', '2', 'MODERNO E PRÁTICO! Aumente sua produtividade e desfrute de momentos de lazer com a Tablet Galaxy Tab S10 Lite 5G da Samsung. Com um design elegante na cor cinza, esse tablet é perfeito para quem busca um dispositivo versátil e de alto desempenho. O modelo apresenta 128 GB de armazenamento e 6 GB de RAM, garantindo espaço e velocidade para todos os seus aplicativos e arquivos. Capture momentos especiais com a câmera traseira de 8 MP e aproveite chamadas de vídeo com a câmera frontal. Com conectividade Wi-Fi, você pode navegar rapidamente pela internet e se manter sempre atualizado. Sua tela de 128 polegadas proporciona uma experiência visual imersiva, ideal para assistir vídeos, ler ou trabalhar em documentos. O chipset Exynos 1380, aliado a uma bateria de 8 Ah, assegura que você permaneça conectado e produtivo por longas horas sem a necessidade de recargas frequentes. E com a tecnologia Bluetooth 5.3, conecte-se facilmente a outros dispositivos. Este dispositivo é uma escolha inteligente para estudantes, profissionais e todos que desejam uma experiência fluida e eficiente em um tablet moderno. DIMENSÕES E PESO: Altura: 16,58 cm Largura: 25,43 cm Profundidade: 0,66 cm Peso: 0,524 kg'),
-('Pulseira Preta Up Power Original Magnética Preto', 'Acessórios', '58.00', '52', '2023-11-18', '2', 'Acessório de alta tecnologia. Entre os produtos mais poderosos do seu tipo! É a prova que o relógio não é o único acessório de pulso capaz de trazer elegância e requinte a imagem pessoal. As cores e o material desta pulseira, trazem uma estética digna de grandes eventos, podendo ser utilizada no trabalho, em casamentos, e onde mais você quiser ser o centro das atenções.A pulseira Upower além de feita de um produto desenvolvido especificamente para não causar alergias, possui um fecho moderno e ajustável, que se encaixa perfeitamente em qualquer pulso. Material: Silicone Cirurgico Tamanho: 24cm (ajustável) Peso: 40g Gênero: Unissex'),
-('Mouse Gamer Redragon Cobra, Chroma RGB', 'Periféricos', '95.99', '23', '2025-10-11', '2', 'Sensor PIXART PMW3327 para Alta Performance (20 G / 100 IPS). Sistema de Iluminação RGB Redragon Chroma Mk.II (7 Diferentes Modos de Iluminação). Polling Rate de 1000hz (Tempo de Resposta Ajustável via Software de 1/2/4/8ms). 8 Botões Programáveis. 2 Botões Laterais para funções / atalhos, macros, etc. Compatível com Software para Configuração de Macro / Ajuste Iluminação RGB / Configurações de Performance. Memória Interna para Salvamento de Configurações. Base com Pés de Teflon para Deslize Suave. 5 Perfis de Configurações para Troca Rápida de Configurações de um Game para Outro. Pegada Ergonômica confortável perfeita para Destros. Cabo Trançado para maior resistência.'),
-('Pista Hot Wheels Mega Lava Rapido Do Tubarão City', 'Brinquedos', '585.72', '9', '2020-07-15', '1', 'Contém: 1 Ultra Lava Rápido, 1 Carrinho que muda de cor na água. Idade: 3+ Anos. Medidas Aproximadas: 40cm Altura e 91cm Comprimento. Material: Plástico e Metal. Escala do Carrinho: 1:64. Levante o tubarão e observe o carro correr pela pista através de suas entranhas. Uma abertura na parte inferior permite que as crianças vejam o progresso do carro.');
+INSERT INTO CadastroProdutos (nome_produto, categoria, preco, quantidade, codigo_barras, data_cadastro, id_produto_vendedor, descricao)
+VALUES ('TechT-Shirt', 'Roupas', '149.99', '20', '5842190371648', '2024-06-21', '1', 'A primeira camiseta do Brasil feita com fibras tecnológicas, e a única com garantia contra desbotamento. O tecido INTECH™ facilita tudo: o trabalho, o treino, o cuidado e até a hora de se vestir. Como ela não pega cheiro fácil, requer menos lavagens. Como ela não desbota, requer menos compras. Como ela é minimalista e atemporal, entrega mais combinações com facilidade. Além disso, tem maciez superior ao algodão e emite até 81.5% menos gases estufa que o modal convencional. *Garantia de 2 anos contra desbotamento para peças adquiridas a partir de 06/09/24, desde que seguidas as instruções da etiqueta, considerando uma lavagem por semana'),
+('Tablet Samsung Galaxy S10', 'Eletrônicos', '2069.10', '32', '3921874650293', '2025-05-31', '2', 'MODERNO E PRÁTICO! Aumente sua produtividade e desfrute de momentos de lazer com a Tablet Galaxy Tab S10 Lite 5G da Samsung. Com um design elegante na cor cinza, esse tablet é perfeito para quem busca um dispositivo versátil e de alto desempenho. O modelo apresenta 128 GB de armazenamento e 6 GB de RAM, garantindo espaço e velocidade para todos os seus aplicativos e arquivos. Capture momentos especiais com a câmera traseira de 8 MP e aproveite chamadas de vídeo com a câmera frontal. Com conectividade Wi-Fi, você pode navegar rapidamente pela internet e se manter sempre atualizado. Sua tela de 128 polegadas proporciona uma experiência visual imersiva, ideal para assistir vídeos, ler ou trabalhar em documentos. O chipset Exynos 1380, aliado a uma bateria de 8 Ah, assegura que você permaneça conectado e produtivo por longas horas sem a necessidade de recargas frequentes. E com a tecnologia Bluetooth 5.3, conecte-se facilmente a outros dispositivos. Este dispositivo é uma escolha inteligente para estudantes, profissionais e todos que desejam uma experiência fluida e eficiente em um tablet moderno. DIMENSÕES E PESO: Altura: 16,58 cm Largura: 25,43 cm Profundidade: 0,66 cm Peso: 0,524 kg'),
+('Pulseira Preta Up Power Original Magnética Preto', 'Acessórios', '58.00', '52', '7401569832147', '2023-11-18', '2', 'Acessório de alta tecnologia. Entre os produtos mais poderosos do seu tipo! É a prova que o relógio não é o único acessório de pulso capaz de trazer elegância e requinte a imagem pessoal. As cores e o material desta pulseira, trazem uma estética digna de grandes eventos, podendo ser utilizada no trabalho, em casamentos, e onde mais você quiser ser o centro das atenções.A pulseira Upower além de feita de um produto desenvolvido especificamente para não causar alergias, possui um fecho moderno e ajustável, que se encaixa perfeitamente em qualquer pulso. Material: Silicone Cirurgico Tamanho: 24cm (ajustável) Peso: 40g Gênero: Unissex'),
+('Mouse Gamer Redragon Cobra, Chroma RGB', 'Periféricos', '95.99', '23', '9134028765129', '2025-10-11', '2', 'Sensor PIXART PMW3327 para Alta Performance (20 G / 100 IPS). Sistema de Iluminação RGB Redragon Chroma Mk.II (7 Diferentes Modos de Iluminação). Polling Rate de 1000hz (Tempo de Resposta Ajustável via Software de 1/2/4/8ms). 8 Botões Programáveis. 2 Botões Laterais para funções / atalhos, macros, etc. Compatível com Software para Configuração de Macro / Ajuste Iluminação RGB / Configurações de Performance. Memória Interna para Salvamento de Configurações. Base com Pés de Teflon para Deslize Suave. 5 Perfis de Configurações para Troca Rápida de Configurações de um Game para Outro. Pegada Ergonômica confortável perfeita para Destros. Cabo Trançado para maior resistência.'),
+('Pista Hot Wheels Mega Lava Rapido Do Tubarão City', 'Brinquedos', '585.72', '9', '6289741305826', '2020-07-15', '1', 'Contém: 1 Ultra Lava Rápido, 1 Carrinho que muda de cor na água. Idade: 3+ Anos. Medidas Aproximadas: 40cm Altura e 91cm Comprimento. Material: Plástico e Metal. Escala do Carrinho: 1:64. Levante o tubarão e observe o carro correr pela pista através de suas entranhas. Uma abertura na parte inferior permite que as crianças vejam o progresso do carro.');
 INSERT INTO Vendas(id_vendas_cliente, id_vendas_produto)
 VALUES ('1', '2'),
 ('2', '1'),
