@@ -19,7 +19,7 @@ CREATE TABLE Endereco (
 id_endereco INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 logradouro VARCHAR(200) NOT NULL,
 complemento VARCHAR(200),
-numero CHAR(5) NOT NULL,
+numero VARCHAR(5) NOT NULL,
 estado ENUM('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MS', 'MT', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO') NOT NULL,
 cidade VARCHAR(200) NOT NULL,
 cep CHAR(8) NOT NULL,
@@ -34,7 +34,6 @@ descricao TEXT NOT NULL,
 categoria ENUM('Roupas', 'Eletrônicos', 'Acessórios', 'Periféricos', 'Brinquedos') NOT NULL,
 preco DECIMAL(10, 2) NOT NULL,
 quantidade INT,
-codigo_barras INT NOT NULL UNIQUE,
 data_cadastro DATE NOT NULL
 );
 CREATE TABLE Vendas (
@@ -44,3 +43,15 @@ FOREIGN KEY (id_vendas_cliente) REFERENCES Cadastro(id_cadastro) ON DELETE CASCA
 id_vendas_produto INT NOT NULL,
 FOREIGN KEY (id_vendas_produto) REFERENCES CadastroProdutos(id_produto) ON DELETE CASCADE
 );
+INSERT INTO Cadastro (nome_usuario, nome_completo, email, data_nasc, senha, data_cadastro, perfil)
+VALUES ('João', 'João Pedro Lima de Camargo', 'camargo.vender@gmail.com', '1973-03-08', '03081973', '2020-01-14', 'Vendedor'),
+('Vanderlei', 'Vanderlei Bento Maciel', 'vanderlei.vender@gmail.com', '1955-09-09', '09091955', '2022-07-22', 'Vendedor'),
+('NTJ', 'Higor Nielsen Maciel', 'naiguncio@gmail.com', '2007-01-03', '03012007', '2025-02-08', 'Cliente'),
+('Charles', 'Eduardo Pires Batagliotti', 'epires.batagliotti@gmail.com', '2007-06-24', '24062007', '2025-07-02', 'Cliente'),
+('Vitão', 'Vitor Rodrigues Moreira', 'moreira.r.vitor44@gmail.com', '2007-02-23', '23022007', '2027-06-14', 'Cliente');
+INSERT INTO Endereco (logradouro, complemento, numero, estado, cidade, cep, bairro, id_cliente_endereco)
+VALUES ('Rua das Flores', 'Apartamento 101', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '2'),
+('Rua das Flores', 'Apartamento 105', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '1'),
+('Rua das Flores', 'Apartamento 101', '132', 'SP', 'São Paulo', '01301020', 'Consolação', '3'),
+('Avenida Paulista', '', '2101', 'SP', 'São Paulo', '01310930', 'Consolação', '4'),
+('Rua dos coqueiros', '', '85', 'RN', 'Natal', '55155320', 'Tirol', '5');
